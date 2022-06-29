@@ -1,6 +1,14 @@
 #include <QTRSensors.h>
 int motorEsquerda = 23;
 int motorDireita = 22;
+#define A0 25
+#define A1 26
+#define A2 27
+#define A3 14
+#define A4 12
+#define A5 13
+#define A6 15
+#define A7 2
 float KP = 0.3;
 float KD = 7;
 int erroAnterior = 0;
@@ -11,11 +19,12 @@ int velocidadeMotor2 = 255;
 #define EMITTER_PIN 2     
 
 
-QTRSensorsRC qtrrc ((unsigned char[]) {0, 1, 2, 3, 4, 5, 6, 7} , NUM_SENSORS, TIMEOUT, EMITTER_PIN); 
+QTRSensorsRC qtrrc ((unsigned char[]) {A0, A1, A2, A3, A4, A5, A6, A7} , NUM_SENSORS, TIMEOUT, EMITTER_PIN); 
 unsigned int sensorValues[NUM_SENSORS];
 
 void setup()
 {
+ Serial.begin(9600);
  pinMode(motorEsquerda,OUTPUT);
  pinMode(motorDireita,OUTPUT);
  analogWrite(motorEsquerda,127);
