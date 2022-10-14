@@ -20,7 +20,7 @@
    
 #define TIMEOUT     2500  
 #define EMITTER_PIN 2
-#define NUM_SENSORS 8
+#define NUM_SENSORS 7
 
 int QTR_THRESHOLD = 2000; //nível da linha branca
 
@@ -37,7 +37,7 @@ int pid_derivative;
 int pid_control;
 
 
-QTRSensorsRC qtrrc ((unsigned char[]) {A0, A1, A2, A3, A4, A5, A6, A7} , NUM_SENSORS, TIMEOUT, EMITTER_PIN); 
+QTRSensorsRC qtrrc ((unsigned char[]) {A0, A1, A2, A3, A4, A5, A6} , NUM_SENSORS, TIMEOUT, EMITTER_PIN); 
 unsigned int sensorValues[NUM_SENSORS];
 
 
@@ -52,8 +52,8 @@ void setup()
   pinMode(A3, INPUT);
   pinMode(A4, INPUT);
   pinMode(A5, INPUT);
-  pinMode(9, OUTPUT);
-  pinMode(10, OUTPUT);
+  pinMode(A6, INPUT);
+  pinMode(A7, INPUT);
   Serial.println("Robot Inicializado");
 
   digitalWrite(IN1, 1);
@@ -72,14 +72,33 @@ for (int i = 0; i < 250; i++)
 void loop()
 {
   // lê os valores do sensor
-  /*int sensor_values[8];
-  for (int i = 0; i < 8; i++)
+  int sensor_values[7];
+  for (int i = 0; i < 7; i++)
   {
     sensor_values[i] = analogRead(i);
-    Serial.println(sensor_values[i]); 
-  }*/
-  Serial.println()
-
+  }
+  Serial.print("A0: ");
+  Serial.println(analogRead(A0)); 
+  delay(250);
+  Serial.print("A1: ");
+  Serial.println(analogRead(A1)); 
+  delay(250);
+  Serial.print("A2: ");
+  Serial.println(analogRead(A2)); 
+  delay(250);
+  Serial.print("A3: ");
+  Serial.println(analogRead(A3)); 
+  delay(250);
+  Serial.print("A4: ");
+  Serial.println(analogRead(A4)); 
+  delay(250);
+  Serial.print("A5: ");
+  Serial.println(analogRead(A5)); 
+  delay(250);
+  Serial.print("A6j: ");
+  Serial.println(analogRead(A6)); 
+  delay(250);
+  
   // ajusta a linha
   int position =  line_position(sensor_values);
 
@@ -126,7 +145,7 @@ int line_position(int sensor_values[8])
   int position = 0;
 
   // percorre os sensores
-  for (int i = 0; i < 8; i++)
+  for (int i = 0; i < 7; i++)
   {
     // se o sensor estiver acima do limiar
     if (sensor_values[i] > QTR_THRESHOLD) //inverter checagem para procurar linha preta
@@ -137,7 +156,7 @@ int line_position(int sensor_values[8])
   }
 
   // divide a posição pelo número de sensores ativos para obter a média
-  position = position / 8;
+  position = position / 7;
 
   // retorna a posição
   return position;
